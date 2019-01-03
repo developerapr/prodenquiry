@@ -1,82 +1,82 @@
 <?php
 $pName = $pUrl = '';
 if ($currentProduct = $block->getCurrentProduct()) {
-	$pName	=	$currentProduct->getName();			
-	$pUrl	=	$currentProduct->getProductUrl();       
+    $pName  =   $currentProduct->getName();
+    $pUrl   =   $currentProduct->getProductUrl();
 }
 ?>
 <div class="container">
   <div class="row ">  
-	<form class="form produ-enquiry-wrap"
-		  action="<?php echo $block->getFormAction(); ?>"
-		  id="produ-enquiry-form"
-		  method="post"
-		  enctype="multipart/form-data"
-		  data-hasrequired="<?php echo __('* Required Fields') ?>"
-		  data-mage-init='{"validation":{}}'>
-		<fieldset class="fieldset">
-			<legend class="legend"><span><?php echo __('Do You Have Any Question?') ?></span></legend><br />
-			<fieldset class="fieldset row">
-				<div class="fields col-md-6">
-			<div class="field name required">
-				<label class="label" for="name"><span><?php echo __('Name') ?></span></label>
-				<div class="control">
-					<input name="name" id="name" title="<?php echo __('Name') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
-				</div>
-			</div>
-			<div class="field email required">
-				<label class="label" for="email"><span><?php echo __('Email') ?></span></label>
-				<div class="control">
-					<input name="email" id="email" title="<?php echo __('Email') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
-				</div>
-			</div>   
-			<div class="field subject required">
-				<label class="label" for="subject"><span><?php /* @escapeNotVerified */ echo __('Subject') ?></span></label>
-				<div class="control">
-					<input name="subject" id="subject" title="<?php /* @escapeNotVerified */ echo __('Subject') ?>" value="" class="input-text" type="text" data-validate="{required:true}"/>
-				</div>
-			</div>		
-			<div class="field question-field-img">
-				<div class="questionfile">
-					<label for="file-upload" class="custom-file-upload">
-					<i class="fa fa-cloud-upload"></i> Upload Image
-					</label>
-					<input id="file-upload" name='file' type="file" style="display:none;">
-				</div>
-				<div class="questionfile">
-					<label for="file-upload2" class="custom-file-upload">
-					<i class="fa fa-cloud-upload"></i> Upload Image
-					</label>
-					<input id="file-upload2" name='file2' type="file" style="display:none;">
-				</div>
-				<div class="questionfile">
-					<label for="file-upload3" class="custom-file-upload">
-					<i class="fa fa-cloud-upload"></i> Upload Image
-					</label>
-					<input id="file-upload3" name='file3' type="file" style="display:none;">
-				</div>
-			</div> 
-			   
-			<div class="field comment required">
-				<label class="label" for="comment"><span><?php echo __('Question') ?></span></label>
-				<div class="control">
-					<textarea name="comment" id="comment" title="<?php echo __('Enter your question') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
-				</div>
-			</div>
-			<?php echo $block->getChildHtml('form.additional.info'); ?>
-				</div>
-			</fieldset>
-		</fieldset>
-		<div class="actions-toolbar">
-			<div class="primary">					
-				<input type="hidden" name="url" value="<?php echo $pUrl; ?>" />
-				<input type="hidden" name="pname" value="<?php echo $pName; ?>" />
-				<button type="submit" title="<?php echo __('Submit') ?>" class="action submit primary">
-					<span><?php echo __('Submit') ?></span>
-				</button>
-			</div>
-		</div>
-	</form>
+    <form class="form produ-enquiry-wrap"
+      action="<?= $block->escapeUrl($block->getFormAction()) ?>"
+          id="produ-enquiry-form"
+          method="post"
+          enctype="multipart/form-data"
+          data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+          data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset">
+            <legend class="legend"><span><?= $block->escapeHtml(__('Do You Have Any Question?')) ?></span></legend><br />
+            <fieldset class="fieldset row">
+                <div class="fields col-md-6">
+            <div class="field name required">
+                <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
+                <div class="control">
+                    <input name="name" id="name" title="<?= $block->escapeHtml(__('Name')) ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+                </div>
+            </div>
+            <div class="field email required">
+                <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                <div class="control">
+                    <input name="email" id="email" title="<?= $block->escapeHtml(__('Email')) ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+                </div>
+            </div>   
+            <div class="field subject required">
+                <label class="label" for="subject"><span><?= $block->escapeHtml(__('Subject')) ?></span></label>
+                <div class="control">
+                    <input name="subject" id="subject" title="<?= $block->escapeHtml(__('Subject')) ?>" value="" class="input-text" type="text" data-validate="{required:true}"/>
+                </div>
+            </div>      
+            <div class="field question-field-img">
+                <div class="questionfile">
+                    <label for="file-upload" class="custom-file-upload">
+                    <i class="fa fa-cloud-upload"></i><?= $block->escapeHtml(__('Upload Image')) ?>
+                    </label>
+                    <input id="file-upload" name='file' type="file" style="display:none;">
+                </div>
+                <div class="questionfile">
+                    <label for="file-upload2" class="custom-file-upload">
+                    <i class="fa fa-cloud-upload"></i><?= $block->escapeHtml(__('Upload Image')) ?>
+                    </label>
+                    <input id="file-upload2" name='file2' type="file" style="display:none;">
+                </div>
+                <div class="questionfile">
+                    <label for="file-upload3" class="custom-file-upload">
+                    <i class="fa fa-cloud-upload"></i><?= $block->escapeHtml(__('Upload Image')) ?>
+                    </label>
+                    <input id="file-upload3" name='file3' type="file" style="display:none;">
+                </div>
+            </div> 
+               
+            <div class="field comment required">
+                <label class="label" for="comment"><span><?= $block->escapeHtml(__('Question')) ?></span></label>
+                <div class="control">
+                    <textarea name="comment" id="comment" title="<?= $block->escapeHtml(__('Enter your question')) ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                </div>
+            </div>
+            <?php echo $block->getChildHtml('form.additional.info'); ?>
+                </div>
+            </fieldset>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">                   
+                <input type="hidden" name="url" value="<?= $block->escapeHtml(__($pUrl)) ?>" />
+                <input type="hidden" name="pname" value="<?= $block->escapeHtml(__($pName)) ?>" />
+                <button type="submit" title="<?= $block->escapeHtml(__('Submit')) ?>" class="action submit primary">
+                    <span><?= $block->escapeHtml(__('Submit')) ?></span>
+                </button>
+            </div>
+        </div>
+    </form>
  </div>
 </div>
 <style>
@@ -87,24 +87,23 @@ if ($currentProduct = $block->getCurrentProduct()) {
 </style>
 <script type="text/javascript">
 require([ 'jquery'], function($){ 
-	$('#file-upload').change(function() {
-		$('.questionfile').css('width','100%');
-		var i = $(this).prev('label').clone();
-		var file = $('#file-upload')[0].files[0].name;
-		$(this).prev('label').text(file);
-	});
-	$('#file-upload2').change(function() {
-		$('.questionfile').css('width','100%');
-		var i = $(this).prev('label').clone();
-		var file = $('#file-upload2')[0].files[0].name;
-		$(this).prev('label').text(file);
-	});
-	$('#file-upload3').change(function() {
-		$('.questionfile').css('width','100%');
-		var i = $(this).prev('label').clone();
-		var file = $('#file-upload3')[0].files[0].name;
-		$(this).prev('label').text(file);
-	});
+    $('#file-upload').change(function() {
+        $('.questionfile').css('width','100%');
+        var i = $(this).prev('label').clone();
+        var file = $('#file-upload')[0].files[0].name;
+        $(this).prev('label').text(file);
+    });
+    $('#file-upload2').change(function() {
+        $('.questionfile').css('width','100%');
+        var i = $(this).prev('label').clone();
+        var file = $('#file-upload2')[0].files[0].name;
+        $(this).prev('label').text(file);
+    });
+    $('#file-upload3').change(function() {
+        $('.questionfile').css('width','100%');
+        var i = $(this).prev('label').clone();
+        var file = $('#file-upload3')[0].files[0].name;
+        $(this).prev('label').text(file);
+    });
 });
-
 </script>
