@@ -1,3 +1,10 @@
+<?php
+$pName = $pUrl = '';
+if ($currentProduct = $block->getCurrentProduct()) {
+	$pName	=	$currentProduct->getName();			
+	$pUrl	=	$currentProduct->getProductUrl();       
+}
+?>
 <div class="container">
   <div class="row ">  
 	<form class="form produ-enquiry-wrap"
@@ -34,19 +41,19 @@
 					<label for="file-upload" class="custom-file-upload">
 					<i class="fa fa-cloud-upload"></i> Upload Image
 					</label>
-					<input id="prod-file-upload" name='file' type="file" style="display:none;">
+					<input id="file-upload" name='file' type="file" style="display:none;">
 				</div>
 				<div class="questionfile">
 					<label for="file-upload2" class="custom-file-upload">
 					<i class="fa fa-cloud-upload"></i> Upload Image
 					</label>
-					<input id="prod-file-upload2" name='file2' type="file" style="display:none;">
+					<input id="file-upload2" name='file2' type="file" style="display:none;">
 				</div>
 				<div class="questionfile">
 					<label for="file-upload3" class="custom-file-upload">
 					<i class="fa fa-cloud-upload"></i> Upload Image
 					</label>
-					<input id="prod-file-upload3" name='file3' type="file" style="display:none;">
+					<input id="file-upload3" name='file3' type="file" style="display:none;">
 				</div>
 			</div> 
 			   
@@ -61,15 +68,9 @@
 			</fieldset>
 		</fieldset>
 		<div class="actions-toolbar">
-			<div class="primary">
-			<?php
-				$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-				$currentProduct = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
-			
-			?>
-				<input type="hidden" name="askquestion" id="askquestion" value="1" />
-				<input type="hidden" name="url" value="<?php echo $currentProduct->getProductUrl(); ?>" />
-				<input type="hidden" name="pname" value="<?php echo $currentProduct->getName(); ?>" />
+			<div class="primary">					
+				<input type="hidden" name="url" value="<?php echo $pUrl; ?>" />
+				<input type="hidden" name="pname" value="<?php echo $pName; ?>" />
 				<button type="submit" title="<?php echo __('Submit') ?>" class="action submit primary">
 					<span><?php echo __('Submit') ?></span>
 				</button>
@@ -86,19 +87,19 @@
 </style>
 <script type="text/javascript">
 require([ 'jquery'], function($){ 
-	$('#prod-file-upload').change(function() {
+	$('#file-upload').change(function() {
 		$('.questionfile').css('width','100%');
 		var i = $(this).prev('label').clone();
 		var file = $('#file-upload')[0].files[0].name;
 		$(this).prev('label').text(file);
 	});
-	$('#prod-file-upload2').change(function() {
+	$('#file-upload2').change(function() {
 		$('.questionfile').css('width','100%');
 		var i = $(this).prev('label').clone();
 		var file = $('#file-upload2')[0].files[0].name;
 		$(this).prev('label').text(file);
 	});
-	$('#prod-file-upload3').change(function() {
+	$('#file-upload3').change(function() {
 		$('.questionfile').css('width','100%');
 		var i = $(this).prev('label').clone();
 		var file = $('#file-upload3')[0].files[0].name;

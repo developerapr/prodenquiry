@@ -14,6 +14,9 @@ class Post extends \Magento\Framework\App\Action\Action
 	protected $scopeConfig;
 	protected $storeManager;
 	protected $_escaper;
+	/* file upload */
+	protected $_mediaDirectory;
+	protected $_fileUploaderFactory;
 	
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
@@ -21,6 +24,8 @@ class Post extends \Magento\Framework\App\Action\Action
 		\Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
 		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
+		\Magento\MediaStorage\Model\File\UploaderFactory $fileUploaderFactory,
+		\Magento\Framework\Filesystem $filesystem,
 		\Magento\Framework\Escaper $escaper
 
     ) {
@@ -29,6 +34,8 @@ class Post extends \Magento\Framework\App\Action\Action
 		$this->inlineTranslation = $inlineTranslation;
 		$this->scopeConfig = $scopeConfig;
 		$this->storeManager = $storeManager;
+		$this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
+		$this->_fileUploaderFactory = $fileUploaderFactory;
 		$this->_escaper = $escaper;
     }  
 	
@@ -38,16 +45,42 @@ class Post extends \Magento\Framework\App\Action\Action
 		if (!$data) {
 			$this->_redirect('*/*/');
 			return;
-		}		
-		
+		}			
 		$this->inlineTranslation->suspend();
+		$redirectUrl = $data['url']; 
 		try{
-			$postObject = new \Magento\Framework\DataObject();
-			$postObject->setData($data);
+			$postObject = new \Magento\Framework\DataObject();			
+			/* append images */
+			if(!empty($_FILES) && !empty($_FILES['file']['name'])){
+				$data['file_1'] =  $this->uploadFile($data,'file');
+			}
+			if(!empty($_FILES) && !empty($_FILES['file2']['name'])){
+					$data['file_2'] =  $this->uploadFile($data,'file2');
+			}
+			if(!empty($_FILES) && !empty($_FILES['file3']['name'])){
+					$data['file_3'] =  $this->uploadFile($data,'file3');
+			}
+			$postObject->setData($data);			
 			$error = false;
-			
+		
+            if (!\Zend_Validate::is(trim($data['name']), 'NotEmpty')) {
+                $error = true;
+            }
+            if (!\Zend_Validate::is(trim($data['subject']), 'NotEmpty')) {
+                $error = true;
+            }
+            if (!\Zend_Validate::is(trim($data['comment']), 'NotEmpty')) {
+                $error = true;
+            }
+            if (!\Zend_Validate::is(trim($data['email']), 'EmailAddress')) {
+                $error = true;
+            }
+         
+            if ($error) {
+                throw new \Exception();
+            }
 			$sender = [
-				'name' => $this->_escaper->escapeHtml($data['first_name']),
+				'name' => $this->_escaper->escapeHtml($data['name']),
 				'email' => $this->_escaper->escapeHtml($data['email']),
 			];
 			$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE; 
@@ -63,18 +96,10 @@ class Post extends \Magento\Framework\App\Action\Action
 			->setFrom($sender)
 			->addTo($this->scopeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, $storeScope))
 			->getTransport();
-
 			$transport->sendMessage();
-			$this->inlineTranslation->resume();
-			/*
-			$objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-			$question = $objectManager->create('Aayanshtech\Warrantyform\Model\Warrantyform');
-			$data['country'] = $data['country_id'];
-			$data['state'] 	 = $data['region'];
-			$question->setData($data);	
-			$question->save();*/
+			$this->inlineTranslation->resume();		
 			$this->messageManager->addSuccess( __('Your request has been submitted.'));		
-			$this->_redirect('*/*/');
+			$this->_redirect($redirectUrl);  // change here 
 			return;
 		} catch (\Exception $e) {
 			/*echo $e->getMessage();
@@ -84,11 +109,20 @@ class Post extends \Magento\Framework\App\Action\Action
 			$this->inlineTranslation->resume();
 			$this->messageManager->addError(__('We can\'t process your request right now. Sorry, that\'s all we know.'.$e->getMessage())
 			);
-			$this->_redirect('*/*/');
+			$this->_redirect($redirectUrl);  // change here 
 			return;
 		}
 		
     }   
-
+	 public function uploadFile($post,$inputFileName){		
+		$target = $this->_mediaDirectory->getAbsolutePath('product_enquiry/');
+		$uploader = $this->_fileUploaderFactory->create(['fileId' =>$inputFileName]);
+		$uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png','doc']);
+		$uploader->setAllowRenameFiles(true);		
+		$fileName = time().'.'.$uploader->getFileExtension();
+		$result = $uploader->save($target,$fileName);
+		$mediaUrl = $this ->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA ); 
+		return $mediaUrl.'product_enquiry/'.$fileName;
+	}
 	
 }
