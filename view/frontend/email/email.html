@@ -1,0 +1,54 @@
+<!--@subject Product Enquiry  @-->
+<!--@vars {
+"var this.getUrl($store, 'admin')":"Warehouse Account URL",
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+ 
+{{template config_path="design/email/header_template"}} <!-- pathe of template header-->
+
+<table class="message-details">
+    <tr>
+        <td><b>{{trans "Name"}}</b></td>
+        <td>{{var data.name}}</td>
+    </tr>
+    <tr>
+        <td><b>{{trans "Email"}}</b></td>
+        <td>{{var data.email}}</td>
+    </tr>
+     <tr>
+        <td><b>{{trans "Subject"}}</b></td>
+        <td>{{var data.subject}}</td>
+    </tr>	
+     <tr>
+        <td><b>{{trans "Product Name"}}</b></td>
+        <td>{{var data.pname}}</td>
+    </tr>
+       <tr>
+        <td><b>{{trans "Product Url"}}</b></td>
+        <td>{{var data.url}}</td>
+    </tr>  
+    {{if data.file_1}}
+		 <tr>
+			<td><b>{{trans "File 1"}}</b></td>
+			<td><img src="{{var data.file_1}}" width="150" /></td>
+		</tr>
+	{{/if}}
+	{{if data.file_2}}
+		 <tr>
+			<td><b>{{trans "File 2"}}</b></td>
+			<td><img src="{{var data.file_2}}" width="150" /></td>
+		</tr>
+	{{/if}}
+	{{if data.file_3}}
+		 <tr>
+			<td><b>{{trans "File 3"}}</b></td>
+			<td><img src="{{var data.file_3}}" width="150" /></td>
+		</tr>
+	{{/if}}
+</table>
+<p><b>{{trans "Question"}}</b></p>
+<p>{{var data.comment}}</p>
+
+ 
+{{template config_path="design/email/footer_template"}} <!--footer of template-->
