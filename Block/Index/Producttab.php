@@ -6,7 +6,7 @@ class Producttab extends \Magento\Framework\View\Element\Template
     public $varregistry;
 
     public function __construct(
-        \Magento\Catalog\Block\Product\Context $context,     
+        \Magento\Catalog\Block\Product\Context $context,
         array $data = []
     ) {
             $this->varregistry = $context->getRegistry();

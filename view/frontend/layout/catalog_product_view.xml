@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
    <body>
       <referenceBlock name="product.info.details">
-          <block class="Aayanshtech\Prodenquiry\Block\Index\Producttab" name="producttab_tab" template="Aayanshtech_Prodenquiry::form.phtml" group="detailed_info">
+          <block class="Aayanshtech\Prodenquiry\Block\Index\Producttab" name="producttab_tab" template="Aayanshtech_Prodenquiry::form.phtml" group="detailed_info" cacheable="true">
               <arguments>
                   <argument translate="true" name="title" xsi:type="string">Product Enquiry</argument>
               </arguments>
