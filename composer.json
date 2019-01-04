@@ -11,8 +11,8 @@
 	  "magento/module-store": "100.0.*",
 	  "magento/module-catalog": "100.0.*",
 	  "magento/module-media-storage": "100.0.*",
-	  "magento/magento-composer-installer": "*"
-	  "magento/framework": "100.0.*"
+	   "magento/framework": "100.0.*",
+	  "magento/magento-composer-installer": "*"	 
   },
   "authors": [
     {
